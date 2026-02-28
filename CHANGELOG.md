@@ -1,6 +1,14 @@
 # Changelog
 
 ---
+## [v.0.0.3]
+## [2026-02-29]
+### Architecture
+- robot.basrc 추가 (ros/torch 등 alias)
+### System Configuration
+- config asyncMode: 2 설정
+- config port: "/dev/ttyTHS1" 설정
+
 ## [v.0.0.2]
 ## [2026-02-29]
 ### Architecture
@@ -14,11 +22,11 @@
 ### Build System
 - 빌드 경고 제거
   - CUDA line directive
-    - CUDA에만 -Wpedantic 빼서 해결
+    - CUDA에만 -Wpedantic 제거
   - VectorNav maybe_unused
-    - SYSTEM include로 "외부 라이브러리야" 알려줘서 해결
+    - SYSTEM include로 "외부 라이브러리야" 설정
   - CMP0148
-    - CMake policy OLD 정책 설정으로 해결
+    - CMake policy OLD 정책 설정
   - ThirdParty 빌드
     - COLCON_IGNORE로 설정
   - int -> size_t 변환

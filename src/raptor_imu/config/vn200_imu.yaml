@@ -3,7 +3,7 @@
 
 vn200_driver:
   ros__parameters:
-    port: "/dev/ttyUSB0"
+    port: "/dev/ttyTHS1"
     BaudRate: 921600            # VIO용 고속 통신
 
     # ASCII 비동기 출력 비활성화 (Binary만 사용)
@@ -45,7 +45,7 @@ vn200_driver:
     #   0x0002 = Quaternion
     # ──────────────────────────────────────────────────
     BO1:
-      asyncMode: 3              # ASYNCMODE_BOTH
+      asyncMode: 2              # ASYNCMODE_SERIAL2
       rateDivisor: 2            # 400Hz
       commonField: 0x0000
       timeField: 0x0001         # TimeStartup

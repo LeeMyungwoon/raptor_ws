@@ -11,19 +11,25 @@ int main(int argc, char* argv[])
 
     if (driver->init())
     {
-        RCLCPP_ERROR(driver->get_logger(), "Failed to initialize VN-200. Shutting down.");
+        RCLCPP_ERROR(driver->get_logger(), "[IMU-ERROR] Failed to initialize VN-200. Shutting down.");
         rclcpp::shutdown();
         return -1;
     }
 
-    RCLCPP_INFO(driver->get_logger(), "VN-200 IMU driver started.");
+    RCLCPP_INFO(driver->get_logger(), "[IMU-INFO] VN-200 IMU driver started.");
 
     while (rclcpp::ok())
     {
-        driver->publishMessages();
-        rclcpp::spin_some(driver);
+        try {
+            driver->publishMessages();
+            rclcpp::spin_some(driver);
+        } catch (const rclcpp::exceptions::RCLError&) {
+            break;  // Ctrl+C로 인한 shutdown → 루프 탈출
+        }
     }
 
+    RCLCPP_INFO(driver->get_logger(), "[IMU-INFO] VN-200 IMU driver shutting down.");
     rclcpp::shutdown();
+    
     return 0;
 }

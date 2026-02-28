@@ -3,8 +3,7 @@
 
 #include "raptor_imu/vn200_driver.hpp"
 
-// ─── 생성자 ─── //
-
+// ─── 생성자 ─── /
 VN200Driver::VN200Driver() : Node("vn200_driver") {
     using namespace VN::Registers::System;
 
