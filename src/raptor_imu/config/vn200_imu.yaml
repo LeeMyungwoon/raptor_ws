@@ -1,0 +1,82 @@
+# VN-200 IMU Configuration for VIO (Visual-Inertial Odometry)
+# GNSS 비활성화, IMU 고속 출력 설정
+
+vn200_driver:
+  ros__parameters:
+    port: "/dev/ttyUSB0"
+    BaudRate: 921600            # VIO용 고속 통신
+
+    # ASCII 비동기 출력 비활성화 (Binary만 사용)
+    AsyncDataOutputType: 0      # VNOFF
+    AsyncDataOutputTypeSerialPort: 1
+    AsyncDataOutputFrequency: 0
+    AsyncDataOutputFrequencySerialPort: 1
+
+    # 동기화 설정 (SyncIn: 카메라 트리거 연동용)
+    syncInMode: 3               # SYNCINMODE_COUNT
+    syncInEdge: 0               # SYNCINEDGE_RISING
+    syncInSkipFactor: 0
+    syncOutMode: 0              # SYNCOUTMODE_NONE
+    syncOutPolarity: 0
+    syncOutSkipFactor: 0
+    syncOutPulseWidth_ns: 100000000
+
+    # 통신 프로토콜
+    asciiAppendCount: 0
+    asciiAppendStatus: 0
+    spiAppendCount: 0
+    spiAppendStatus: 0
+    asciiChecksum: 1
+    spiChecksum: 0
+    errorMode: 1
+
+    # ──────────────────────────────────────────────────
+    # Binary Output 1: VIO용 IMU 고속 출력
+    # ──────────────────────────────────────────────────
+    # rateDivisor: 내부 IMU rate(800Hz) / rateDivisor = 출력 주파수
+    #   2 = 400Hz, 4 = 200Hz, 8 = 100Hz
+    # imuField 비트마스크:
+    #   0x0004 = UncompAccel
+    #   0x0008 = UncompGyro
+    #   0x0010 = DeltaTheta
+    #   0x0020 = DeltaVel  (추가 필요 시 0x003C)
+    # attitudeField 비트마스크:
+    #   0x0001 = YPR
+    #   0x0002 = Quaternion
+    # ──────────────────────────────────────────────────
+    BO1:
+      asyncMode: 3              # ASYNCMODE_BOTH
+      rateDivisor: 2            # 400Hz
+      commonField: 0x0000
+      timeField: 0x0001         # TimeStartup
+      imuField: 0x001C          # UncompAccel + UncompGyro + DeltaTheta
+      gpsField: 0x0000          # GNSS 비활성화
+      attitudeField: 0x0000     # YPR + Quaternion 비활성화
+      insField: 0x0000
+      gps2Field: 0x0000         # GNSS2 비활성화
+
+    # Binary Output 2: 비활성화
+    BO2:
+      asyncMode: 0
+      rateDivisor: 0
+      commonField: 0x0000
+      timeField: 0x0000
+      imuField: 0x0000
+      gpsField: 0x0000
+      attitudeField: 0x0000
+      insField: 0x0000
+      gps2Field: 0x0000
+
+    # Binary Output 3: 비활성화
+    BO3:
+      asyncMode: 0
+      rateDivisor: 0
+      commonField: 0x0000
+      timeField: 0x0000
+      imuField: 0x0000
+      gpsField: 0x0000
+      attitudeField: 0x0000
+      insField: 0x0000
+      gps2Field: 0x0000
+
+    frame_id: "imu_link"
